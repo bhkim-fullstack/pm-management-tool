@@ -1,0 +1,241 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	color: #1f2328;
+}
+
+.layout {
+	display: grid;
+	grid-template-columns: 240px 1fr 280px;
+	height: 100vh;
+}
+
+.sidebar,
+.notes {
+	background: #f6f8fa;
+	padding: 16px;
+	overflow-y: auto;
+}
+
+.sidebar {
+	border-right: 1px solid #d0d7de;
+}
+
+.notes {
+	border-left: 1px solid #d0d7de;
+}
+
+.main {
+	padding: 0 16px 16px;
+	overflow-y: auto;
+}
+
+.sticky-top {
+	position: sticky;
+	top: 0;
+	z-index: 20;
+	background: #ffffff;
+	padding: 16px 0 8px;
+	box-shadow: 0 1px 0 #d0d7de;
+}
+
+#calendar {
+	padding-top: 8px;
+}
+
+.calendar-toolbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-top: 8px;
+}
+
+.calendar-title {
+	margin: 0;
+	font-size: 20px;
+}
+
+.calendar-toolbar-buttons {
+	display: flex;
+	gap: 6px;
+}
+
+.calendar-toolbar-buttons button {
+	padding: 6px 12px;
+	cursor: pointer;
+}
+
+.sidebar h2,
+.notes h2 {
+	font-size: 14px;
+	text-transform: uppercase;
+	color: #57606a;
+	margin: 0 0 12px;
+}
+
+#new-project-form {
+	display: flex;
+	gap: 4px;
+	margin-bottom: 12px;
+}
+
+#new-project-name {
+	flex: 1;
+	min-width: 0;
+	padding: 6px 8px;
+}
+
+#project-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+#project-list li {
+	padding: 8px 10px;
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+#project-list li:hover {
+	background: #eaeef2;
+}
+
+#project-list li.selected {
+	background: #0969da;
+	color: white;
+}
+
+.new-person-form {
+	display: flex;
+	gap: 4px;
+	margin-bottom: 12px;
+}
+
+#new-person-name {
+	padding: 6px 8px;
+}
+
+.people-bar {
+	display: flex;
+	gap: 24px;
+	min-height: 40px;
+	margin-bottom: 16px;
+	align-items: flex-start;
+}
+
+.people-group {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	flex: 1;
+	padding: 8px;
+	border-radius: 8px;
+}
+
+.people-group-empty {
+	background: #f6f8fa;
+}
+
+.person-chip {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 4px 10px;
+	border-radius: 999px;
+	font-size: 13px;
+	color: white;
+}
+
+.person-chip.no-task {
+	background: #8b949e;
+	color: #f0f0f0;
+}
+
+.person-chip button {
+	border: none;
+	background: transparent;
+	color: inherit;
+	cursor: pointer;
+	font-size: 12px;
+	line-height: 1;
+	opacity: 0.7;
+}
+
+.person-chip button:hover {
+	opacity: 1;
+}
+
+.memo-status {
+	text-transform: none;
+	font-size: 12px;
+	font-weight: normal;
+	color: #8b949e;
+}
+
+#memo-textarea {
+	width: 100%;
+	height: calc(100vh - 80px);
+	resize: none;
+	border: 1px solid #d0d7de;
+	border-radius: 8px;
+	padding: 10px;
+	font-family: inherit;
+	font-size: 14px;
+}
+
+#task-modal {
+	border: none;
+	border-radius: 10px;
+	padding: 20px;
+	width: 320px;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+#task-modal::backdrop {
+	background: rgba(0, 0, 0, 0.4);
+}
+
+#task-form {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+#task-form h3 {
+	margin: 0;
+}
+
+#task-form label {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	font-size: 13px;
+	color: #57606a;
+}
+
+#task-form input,
+#task-form select {
+	padding: 6px 8px;
+	font-size: 14px;
+}
+
+.task-modal-actions {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: 8px;
+}
+
+.task-modal-actions .spacer {
+	flex: 1;
+}
+
+#task-delete-button {
+	color: #d1242f;
+	border-color: #d1242f;
+}
