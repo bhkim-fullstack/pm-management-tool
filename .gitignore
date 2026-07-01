@@ -40,3 +40,6 @@ out/
 /data/
 *.db
 *.db-journal
+
+### macOS ###
+.DS_Store

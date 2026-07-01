@@ -1,0 +1,32 @@
+{
+	"name": "pm-management-tool-desktop",
+	"version": "0.0.1",
+	"private": true,
+	"description": "Desktop wrapper for pm-management-tool",
+	"main": "main.js",
+	"scripts": {
+		"start": "electron .",
+		"prepack": "./prepare-resources.sh",
+		"pack": "electron-builder --dir",
+		"predist": "./prepare-resources.sh",
+		"dist": "electron-builder"
+	},
+	"devDependencies": {
+		"electron": "^33.0.0",
+		"electron-builder": "^25.0.0"
+	},
+	"build": {
+		"appId": "com.platformerz.pmtool",
+		"productName": "PM Management Tool",
+		"files": ["main.js", "package.json"],
+		"extraResources": [
+			{ "from": "resources/backend.jar", "to": "app/backend.jar" },
+			{ "from": "resources/jre", "to": "app/jre" }
+		],
+		"mac": {
+			"target": "dmg",
+			"category": "public.app-category.productivity",
+			"identity": null
+		}
+	}
+}
