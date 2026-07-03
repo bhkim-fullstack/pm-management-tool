@@ -6,21 +6,26 @@
 	<link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
 <body>
+	<div id="workspace-bar" class="workspace-bar">
+		<div id="workspace-tabs" class="workspace-tabs"></div>
+		<button type="button" id="add-workspace-button" class="add-workspace-button" aria-label="워크스페이스 추가">+</button>
+	</div>
 	<div class="layout">
 		<aside class="sidebar">
 			<h2>프로젝트</h2>
 			<form id="new-project-form">
 				<input type="text" id="new-project-name" placeholder="새 프로젝트 이름" required>
-				<button type="submit">추가</button>
+				<button type="submit" class="btn btn-primary">추가</button>
 			</form>
+			<div id="all-projects-item" class="all-projects-item">모든 프로젝트</div>
 			<ul id="project-list"></ul>
 		</aside>
 
 		<main class="main">
 			<div id="sticky-top" class="sticky-top">
 				<form id="new-person-form" class="new-person-form">
-					<input type="text" id="new-person-name" placeholder="담당자 이름" required>
-					<button type="submit">담당자 추가</button>
+					<input type="text" id="new-person-name" placeholder="담당자 이름 (쉼표로 구분해 여러 명 입력 가능)" required>
+					<button type="submit" class="btn btn-primary">담당자 추가</button>
 				</form>
 				<div id="people-bar" class="people-bar">
 					<div id="people-with-tasks" class="people-group"></div>
@@ -36,10 +41,15 @@
 				</div>
 			</div>
 			<div id="calendar"></div>
+			<div class="global-memo-section">
+				<h2>글로벌 메모 <span id="global-memo-status" class="memo-status"></span></h2>
+				<textarea id="global-memo-textarea" placeholder="목표 등 프로젝트에 종속되지 않는 메모를 입력하세요"></textarea>
+			</div>
 		</main>
 
 		<aside class="notes">
 			<h2>메모 <span id="memo-status" class="memo-status"></span></h2>
+			<div id="memo-tabs" class="memo-tabs" hidden></div>
 			<textarea id="memo-textarea" placeholder="메모를 입력하세요"></textarea>
 		</aside>
 	</div>
@@ -51,12 +61,10 @@
 				제목
 				<input type="text" id="task-title" required>
 			</label>
-			<label>
-				담당자
-				<select id="task-person">
-					<option value="">미배정</option>
-				</select>
-			</label>
+			<div class="task-person-field">
+				<span class="task-person-label">담당자</span>
+				<div id="task-person-list" class="task-person-list"></div>
+			</div>
 			<label>
 				시작일
 				<input type="date" id="task-start" required>
@@ -66,10 +74,10 @@
 				<input type="date" id="task-end" required>
 			</label>
 			<div class="task-modal-actions">
-				<button type="button" id="task-delete-button">삭제</button>
+				<button type="button" id="task-delete-button" class="btn btn-danger">삭제</button>
 				<span class="spacer"></span>
-				<button type="button" id="task-cancel-button">취소</button>
-				<button type="submit" id="task-save-button">저장</button>
+				<button type="button" id="task-cancel-button" class="btn btn-secondary">취소</button>
+				<button type="submit" id="task-save-button" class="btn btn-primary">저장</button>
 			</div>
 		</form>
 	</dialog>

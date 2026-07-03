@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -40,9 +41,16 @@ public class TaskController {
 	@PostMapping
 	public TaskResponse create(@PathVariable Long projectId, @RequestBody TaskRequest request) {
 		Project project = projectRepository.getReferenceById(projectId);
-		Person person = request.personId() == null ? null : personRepository.getReferenceById(request.personId());
-		Task task = new Task(project, person, request.title(), request.start(), request.end());
+		List<Person> people = resolvePeople(request.personIds());
+		Task task = new Task(project, people, request.title(), request.start(), request.end());
 		return TaskResponse.from(taskRepository.save(task));
+	}
+
+	private List<Person> resolvePeople(List<Long> personIds) {
+		if (personIds == null) {
+			return new ArrayList<>();
+		}
+		return new ArrayList<>(personIds.stream().map(personRepository::getReferenceById).toList());
 	}
 
 }

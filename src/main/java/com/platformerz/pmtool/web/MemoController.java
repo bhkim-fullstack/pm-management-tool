@@ -34,10 +34,4 @@ public class MemoController {
 		return new MemoResponse(memo.getContent());
 	}
 
-	public record MemoRequest(String content) {
-	}
-
-	public record MemoResponse(String content) {
-	}
-
 }

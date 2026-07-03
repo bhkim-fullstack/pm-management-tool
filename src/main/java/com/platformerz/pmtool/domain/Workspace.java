@@ -7,21 +7,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 import java.time.Instant;
 
 @Entity
-public class Project {
+public class Workspace {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "workspace_id", nullable = false)
-	private Workspace workspace;
 
 	@Column(nullable = false)
 	private String name;
@@ -30,24 +24,15 @@ public class Project {
 	@Convert(converter = InstantStringConverter.class)
 	private Instant createdAt = Instant.now();
 
-	@Column(name = "color", nullable = false)
-	private String color;
-
-	protected Project() {
+	protected Workspace() {
 	}
 
-	public Project(Workspace workspace, String name, String color) {
-		this.workspace = workspace;
+	public Workspace(String name) {
 		this.name = name;
-		this.color = color;
 	}
 
 	public Long getId() {
 		return id;
-	}
-
-	public Workspace getWorkspace() {
-		return workspace;
 	}
 
 	public String getName() {
@@ -60,14 +45,6 @@ public class Project {
 
 	public Instant getCreatedAt() {
 		return createdAt;
-	}
-
-	public String getColor() {
-		return color;
-	}
-
-	public void setColor(String color) {
-		this.color = color;
 	}
 
 }

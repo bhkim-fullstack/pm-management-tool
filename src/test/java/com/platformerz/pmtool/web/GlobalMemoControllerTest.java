@@ -1,9 +1,5 @@
 package com.platformerz.pmtool.web;
 
-import com.platformerz.pmtool.domain.Project;
-import com.platformerz.pmtool.domain.Workspace;
-import com.platformerz.pmtool.repository.ProjectRepository;
-import com.platformerz.pmtool.repository.WorkspaceRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class MemoControllerTest {
+class GlobalMemoControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -29,42 +25,30 @@ class MemoControllerTest {
 	@Autowired
 	private ObjectMapper objectMapper;
 
-	@Autowired
-	private ProjectRepository projectRepository;
-
-	@Autowired
-	private WorkspaceRepository workspaceRepository;
-
 	@Test
 	void get_returnsEmptyContentWhenNoMemoSavedYet() throws Exception {
-		Workspace workspace = workspaceRepository.save(new Workspace("워크스페이스"));
-		Project project = projectRepository.save(new Project(workspace, "프로젝트", "#0969da"));
-
-		mockMvc.perform(get("/api/projects/{projectId}/memo", project.getId()))
+		mockMvc.perform(get("/api/global-memo"))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.content").value(""));
 	}
 
 	@Test
 	void update_createsThenUpdatesMemoContent() throws Exception {
-		Workspace workspace = workspaceRepository.save(new Workspace("워크스페이스"));
-		Project project = projectRepository.save(new Project(workspace, "프로젝트", "#0969da"));
-
-		mockMvc.perform(put("/api/projects/{projectId}/memo", project.getId())
+		mockMvc.perform(put("/api/global-memo")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(new MemoRequest("첫 메모"))))
+				.content(objectMapper.writeValueAsString(new MemoRequest("목표: 1분기 출시"))))
 			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.content").value("첫 메모"));
+			.andExpect(jsonPath("$.content").value("목표: 1분기 출시"));
 
-		mockMvc.perform(get("/api/projects/{projectId}/memo", project.getId()))
+		mockMvc.perform(get("/api/global-memo"))
 			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.content").value("첫 메모"));
+			.andExpect(jsonPath("$.content").value("목표: 1분기 출시"));
 
-		mockMvc.perform(put("/api/projects/{projectId}/memo", project.getId())
+		mockMvc.perform(put("/api/global-memo")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(new MemoRequest("수정된 메모"))))
+				.content(objectMapper.writeValueAsString(new MemoRequest("수정된 목표"))))
 			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.content").value("수정된 메모"));
+			.andExpect(jsonPath("$.content").value("수정된 목표"));
 	}
 
 }

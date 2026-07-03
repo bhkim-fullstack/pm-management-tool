@@ -1,7 +1,6 @@
 package com.platformerz.pmtool.web;
 
 import com.platformerz.pmtool.domain.Person;
-import com.platformerz.pmtool.domain.Task;
 import com.platformerz.pmtool.repository.PersonRepository;
 import com.platformerz.pmtool.repository.ProjectRepository;
 import com.platformerz.pmtool.repository.TaskRepository;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -36,8 +34,7 @@ public class PersonController {
 	@GetMapping
 	public List<PersonResponse> list(@PathVariable Long projectId) {
 		Set<Long> peopleWithTasks = taskRepository.findByProjectId(projectId).stream()
-			.map(Task::getPerson)
-			.filter(Objects::nonNull)
+			.flatMap(task -> task.getPeople().stream())
 			.map(Person::getId)
 			.collect(Collectors.toSet());
 

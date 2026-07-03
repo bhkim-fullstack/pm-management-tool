@@ -13,7 +13,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import tools.jackson.databind.ObjectMapper;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -21,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class MemoControllerTest {
+class ProjectControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -36,35 +35,15 @@ class MemoControllerTest {
 	private WorkspaceRepository workspaceRepository;
 
 	@Test
-	void get_returnsEmptyContentWhenNoMemoSavedYet() throws Exception {
+	void updateColor_changesProjectColor() throws Exception {
 		Workspace workspace = workspaceRepository.save(new Workspace("워크스페이스"));
 		Project project = projectRepository.save(new Project(workspace, "프로젝트", "#0969da"));
 
-		mockMvc.perform(get("/api/projects/{projectId}/memo", project.getId()))
-			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.content").value(""));
-	}
-
-	@Test
-	void update_createsThenUpdatesMemoContent() throws Exception {
-		Workspace workspace = workspaceRepository.save(new Workspace("워크스페이스"));
-		Project project = projectRepository.save(new Project(workspace, "프로젝트", "#0969da"));
-
-		mockMvc.perform(put("/api/projects/{projectId}/memo", project.getId())
+		mockMvc.perform(put("/api/projects/{projectId}/color", project.getId())
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(new MemoRequest("첫 메모"))))
+				.content(objectMapper.writeValueAsString(new ProjectController.UpdateColorRequest("#ff6600"))))
 			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.content").value("첫 메모"));
-
-		mockMvc.perform(get("/api/projects/{projectId}/memo", project.getId()))
-			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.content").value("첫 메모"));
-
-		mockMvc.perform(put("/api/projects/{projectId}/memo", project.getId())
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(new MemoRequest("수정된 메모"))))
-			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.content").value("수정된 메모"));
+			.andExpect(jsonPath("$.color").value("#ff6600"));
 	}
 
 }
